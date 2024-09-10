@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
-    <BaseOutputPath>C:\Users\ilkka\Documents\Visual Studio 2022\Projects\Net8\BuzzGUI Rebuzz\rel</BaseOutputPath>
+    <BaseOutputPath>rel</BaseOutputPath>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 

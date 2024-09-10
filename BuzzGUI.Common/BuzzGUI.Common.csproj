@@ -7,7 +7,7 @@
 
 	  <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
-	  <BaseOutputPath>rel</BaseOutputPath>
+	  <BaseOutputPath>..\rel</BaseOutputPath>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 

@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
-    <BaseOutputPath>rel</BaseOutputPath>
+    <BaseOutputPath>..\rel</BaseOutputPath>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 

@@ -8,26 +8,14 @@
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>ModernSequenceEditor GUI</AssemblyName>
     <RootNamespace>WDE.ModernSequenceEditor</RootNamespace>
-    <BaseOutputPath>rel</BaseOutputPath>
+    <BaseOutputPath>..\rel</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="BuzzGUI.Common">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\ReBuzz\BuzzGUI.Common.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BuzzGUI.Interfaces">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\ReBuzz\BuzzGUI.Interfaces.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="BuzzGUI.SequenceEditor">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\ReBuzz\BuzzGUI.SequenceEditor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ModernSequenceEditor.Interfaces">
-      <HintPath>..\..\..\..\..\..\..\..\..\Program Files\ReBuzz\ModernSequenceEditor.Interfaces.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <ProjectReference Include="..\BuzzGUI.Common\BuzzGUI.Common.csproj" />
+    <ProjectReference Include="..\BuzzGUI.Interfaces\BuzzGUI.Interfaces.csproj" />
+    <ProjectReference Include="..\BuzzGUI.SequenceEditorExtended Rebuzz\BuzzGUI.SequenceEditorExtended Rebuzz.csproj" />
+    <ProjectReference Include="..\WDE.Interfaces\WDE.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

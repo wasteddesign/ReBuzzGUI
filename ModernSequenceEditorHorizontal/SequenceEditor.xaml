@@ -135,7 +135,7 @@
                     </ComboBox>
             </StackPanel>
             <Border Margin="4,4,4,0" Grid.Row="0" Grid.Column="1" BorderBrush="{StaticResource SeqEdBorderBrush}" BorderThickness="1">
-        <ScrollViewer Name="timelineSV" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+        <ScrollViewer Name="timelineSV" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Hidden">
           <l:TimelineElement x:Name="timeLineElement" HorizontalAlignment="Left" />
         </ScrollViewer>
 				<Border.Style>

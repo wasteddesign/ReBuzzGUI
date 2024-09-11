@@ -1401,7 +1401,9 @@ namespace WDE.ModernSequenceEditorHorizontal
                 loopEndMarker.Height = mh;
                 playPosMarker.Height = mh;
 
-                trackSV.Height = Math.Max(0, mainGrid.RowDefinitions[1].ActualHeight - 6.0);
+                mh = Math.Max(0, mainGrid.RowDefinitions[1].ActualHeight - 6.0);
+                trackSV.Height = mh;
+                trackHeaderSV.Height = mh;
 
                 double mw = Math.Max(0, mainGrid.ColumnDefinitions[1].ActualWidth - SystemParameters.VerticalScrollBarWidth - 10);
                 markerSV.Width = mw;

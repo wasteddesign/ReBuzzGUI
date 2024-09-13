@@ -15,7 +15,12 @@
     <ProjectReference Include="..\BuzzGUI.Common\BuzzGUI.Common.csproj" />
     <ProjectReference Include="..\BuzzGUI.Interfaces\BuzzGUI.Interfaces.csproj" />
     <ProjectReference Include="..\BuzzGUI.SequenceEditorExtended Rebuzz\BuzzGUI.SequenceEditorExtended Rebuzz.csproj" />
-    <ProjectReference Include="..\WDE.Interfaces\WDE.Interfaces.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ModernSequenceEditor.Interfaces">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\ReBuzz\ModernSequenceEditor.Interfaces.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

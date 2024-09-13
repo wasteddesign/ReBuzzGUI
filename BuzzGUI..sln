@@ -42,8 +42,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModernSequenceEditorHorizon
 		{A74A9C98-991C-4B7E-A770-745FF6609DF5} = {A74A9C98-991C-4B7E-A770-745FF6609DF5}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WDE.Interfaces", "WDE.Interfaces\WDE.Interfaces.csproj", "{F69BC029-18E9-4B3C-BC88-14AA34CD3452}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -106,10 +104,6 @@ Global
 		{8C804AE6-A37C-453E-A795-51ED8BAD6702}.Debug|x64.Build.0 = Debug|x64
 		{8C804AE6-A37C-453E-A795-51ED8BAD6702}.Release|x64.ActiveCfg = Release|x64
 		{8C804AE6-A37C-453E-A795-51ED8BAD6702}.Release|x64.Build.0 = Release|x64
-		{F69BC029-18E9-4B3C-BC88-14AA34CD3452}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F69BC029-18E9-4B3C-BC88-14AA34CD3452}.Debug|x64.Build.0 = Debug|Any CPU
-		{F69BC029-18E9-4B3C-BC88-14AA34CD3452}.Release|x64.ActiveCfg = Release|Any CPU
-		{F69BC029-18E9-4B3C-BC88-14AA34CD3452}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

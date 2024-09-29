@@ -10,6 +10,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="rebuzzupdate.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="rebuzzupdate.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BuzzGUI.Interfaces\BuzzGUI.Interfaces.csproj" />
   </ItemGroup>
 

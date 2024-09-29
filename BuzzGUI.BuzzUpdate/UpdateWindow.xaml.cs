@@ -3,7 +3,11 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Net.Mime;
 using System.Security.Cryptography;
+using System.Security.Policy;
+using System.Text.Json.Nodes;
 using System.Windows;
 
 namespace BuzzGUI.BuzzUpdate
@@ -11,26 +15,40 @@ namespace BuzzGUI.BuzzUpdate
     public partial class UpdateWindow : Window
     {
         static string UserAgentString;
+        static string downloadUrl;
         static int currentBuild;
         static int latestBuild;
         string localFile;
         string localSignatureFile;
 
-        string setupUrl { get { return Environment.Is64BitProcess ? "http://jeskola.net/buzz/beta/files/setup_x64/" : "http://jeskola.net/buzz/beta/files/setup/"; } }
-        string setupExe { get { return Environment.Is64BitProcess ? "BuzzSetup_x64_" : "BuzzSetup"; } }
+        static string setupUrl { get { return "https://github.com/wasteddesign/ReBuzz/releases/latest"; } }
+        string setupExe { get { return "ReBuzzSetup_2024_Preview_"; } }
 
         static int ParseBuildNumber(string s)
         {
-            s = s.Replace("\"", "");
-            int x;
-            if (!int.TryParse(s, out x) || x < 1000)
-                return 0;
+            s = Path.ChangeExtension(s, null);
+
+            int x = 0;
+
+            int lastDigitIndex = s.LastIndexOfAny("0123456789".ToCharArray());
+            if (lastDigitIndex != -1)
+            {
+                int startIndex = lastDigitIndex;
+                while (startIndex >= 0 && char.IsDigit(s[startIndex]))
+                {
+                    startIndex--;
+                }
+                startIndex++;
+                string lastNumber = s.Substring(startIndex, lastDigitIndex - startIndex + 1);
+                int.TryParse(lastNumber, out x);
+            }
 
             return x;
         }
 
-        public UpdateWindow()
+        public UpdateWindow(int latestBuild)
         {
+            DataContext = this;
             InitializeComponent();
 
             verText.Text = "Current Build: " + currentBuild.ToString() + "   Latest Build: " + latestBuild.ToString();
@@ -43,16 +61,23 @@ namespace BuzzGUI.BuzzUpdate
         public static void DownloadBuildCount(IBuzz buzz)
         {
             currentBuild = buzz.BuildNumber;
-            UserAgentString = "Buzz Update " + currentBuild.ToString();
+            //UserAgentString = "Buzz Update " + currentBuild.ToString();
+            string urlLatestRelease = "https://api.github.com/repos/wasteddesign/ReBuzz/releases/latest";
 
-            WebRequest.DefaultWebProxy = null;
-            WebClient wc = new WebClient();
-            wc.Headers.Add("user-agent", UserAgentString);
-            wc.DownloadStringCompleted += (sender, e) =>
+            WebClient client = new WebClient();
+            client.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0"); 
+            client.DownloadStringCompleted += (sender, e) =>
             {
                 if (!e.Cancelled && e.Error == null)
                 {
-                    latestBuild = ParseBuildNumber(e.Result);
+                    var jsonString = e.Result;
+                    JsonNode releasesNode = JsonNode.Parse(jsonString)!;
+                    JsonNode assetsNode = releasesNode!["assets"]!;
+                    JsonNode installerAsset = assetsNode[0]!;
+                    JsonNode urlNode = installerAsset!["browser_download_url"]!;
+                    downloadUrl = urlNode.ToString();
+
+                    latestBuild = ParseBuildNumber(downloadUrl);
 
                     if (currentBuild >= latestBuild)
                     {
@@ -60,33 +85,31 @@ namespace BuzzGUI.BuzzUpdate
                     }
                     else
                     {
-                        UpdateWindow w = new UpdateWindow();
+                        UpdateWindow w = new UpdateWindow(latestBuild);
                         w.Show();
                     }
-
-
                 }
                 else if (e.Error != null)
                 {
                     buzz.DCWriteLine("[BuzzUpdate] " + e.Error.ToString());
                 }
             };
-
             try
             {
-                wc.DownloadStringAsync(new Uri("http://jeskola.net/buzz/buildcount"));
+                client.DownloadStringAsync(new Uri(urlLatestRelease));
             }
             catch (Exception e)
             {
-                buzz.DCWriteLine("[BuzzUpdate] " + e.Message);
+                MessageBox.Show(e.Message, "ReBuzz Update");
             }
 
         }
 
 
-
         void DownloadChangelog()
         {
+            changelogBox.Text = @"Go to https://github.com/wasteddesign/ReBuzz/releases/latest for more information.";
+            /*
             WebClient wc = new WebClient();
             wc.Headers.Add("user-agent", UserAgentString);
             wc.DownloadStringCompleted += (sender, e) =>
@@ -109,6 +132,7 @@ namespace BuzzGUI.BuzzUpdate
             {
                 changelogBox.Text = e.Message;
             }
+            */
         }
 
         void VerifySignature()
@@ -126,28 +150,20 @@ namespace BuzzGUI.BuzzUpdate
         void DownloadInstaller()
         {
             WebClient wc = new WebClient();
-            wc.Headers.Add("user-agent", UserAgentString);
+            wc.Headers.Add("user-agent", "Other");
             wc.DownloadFileCompleted += (sender, e) =>
             {
                 if (!e.Cancelled && e.Error == null)
                 {
                     progressBar.Value = 0;
                     progressBar.Visibility = Visibility.Collapsed;
-                    try
-                    {
-                        VerifySignature();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Signature verification failed.\n" + ex.Message, "Buzz Update");
-                    }
 
                     button.Content = "Install...";
                     button.IsEnabled = true;
                 }
                 else if (e.Error != null)
                 {
-                    MessageBox.Show(e.Error.ToString(), "Buzz Update");
+                    MessageBox.Show(e.Error.ToString(), "ReBuzz Update");
                 }
             };
             wc.DownloadProgressChanged += (sender, e) =>
@@ -159,14 +175,14 @@ namespace BuzzGUI.BuzzUpdate
 
             try
             {
-                string exename = setupExe + latestBuild.ToString() + ".exe";
+                string exename = Path.GetFileName(downloadUrl);
                 localFile = System.IO.Path.GetTempPath() + exename;
 
-                wc.DownloadFileAsync(new Uri(setupUrl + exename), localFile);
+                wc.DownloadFileAsync(new Uri(downloadUrl), localFile);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Buzz Update");
+                MessageBox.Show(e.Message, "ReBuzz Update");
             }
         }
 
@@ -184,7 +200,7 @@ namespace BuzzGUI.BuzzUpdate
                 }
                 else if (e.Error != null)
                 {
-                    MessageBox.Show(e.Error.ToString(), "Buzz Update");
+                    MessageBox.Show(e.Error.ToString(), "ReBuzz Update");
                 }
             };
             wc.DownloadProgressChanged += (sender, e) =>
@@ -203,7 +219,7 @@ namespace BuzzGUI.BuzzUpdate
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message, "Buzz Update");
+                MessageBox.Show(e.Message, "ReBuzz Update");
             }
         }
 
@@ -212,7 +228,8 @@ namespace BuzzGUI.BuzzUpdate
             if (localFile == null)
             {
                 button.IsEnabled = false;
-                DownloadSignature();
+                //DownloadSignature();
+                DownloadInstaller();
             }
             else
             {

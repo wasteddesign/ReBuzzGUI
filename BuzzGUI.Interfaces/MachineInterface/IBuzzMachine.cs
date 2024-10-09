@@ -52,5 +52,6 @@
         // {U} public void byte[] GetPatternEditorData();
         // {U} public bool CanExecuteCommand(BuzzCommand cmd);
         // {U} public void ExecuteCommand(BuzzCommand cmd);
+        // {U} public void UpdateWaveReferences(IPattern pattern, Dictionary<int, int> remap)
     }
 }

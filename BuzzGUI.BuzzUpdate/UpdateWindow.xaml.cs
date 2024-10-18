@@ -16,6 +16,7 @@ namespace BuzzGUI.BuzzUpdate
     {
         static string UserAgentString;
         static string downloadUrl;
+        static string releaseNotes;
         static int currentBuild;
         static int latestBuild;
         string localFile;
@@ -79,6 +80,8 @@ namespace BuzzGUI.BuzzUpdate
 
                     latestBuild = ParseBuildNumber(downloadUrl);
 
+                    releaseNotes = (releasesNode!["body"]!).ToString();
+
                     if (currentBuild >= latestBuild)
                     {
                         buzz.DCWriteLine("[BuzzUpdate] No updates available.");
@@ -108,31 +111,33 @@ namespace BuzzGUI.BuzzUpdate
 
         void DownloadChangelog()
         {
-            changelogBox.Text = @"Go to https://github.com/wasteddesign/ReBuzz/releases/latest for more information.";
-            /*
-            WebClient wc = new WebClient();
-            wc.Headers.Add("user-agent", UserAgentString);
-            wc.DownloadStringCompleted += (sender, e) =>
+            string urlLatestRelease = "https://api.github.com/repos/wasteddesign/ReBuzz/releases/latest";
+
+            WebClient client = new WebClient();
+            client.Headers.Add("user-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+            client.DownloadStringCompleted += (sender, e) =>
             {
                 if (!e.Cancelled && e.Error == null)
                 {
-                    changelogBox.Text = e.Result;
-                }
-                else if (e.Error != null)
-                {
-                    changelogBox.Text = e.Error.ToString();
+                    var jsonString = e.Result;
+                    JsonNode releasesNode = JsonNode.Parse(jsonString)!;
+                    releaseNotes = (releasesNode!["body"]!).ToString();
+
+                    changelogBox.Text = @"Release Notes:
+
+" + releaseNotes + @"
+
+Go to https://github.com/wasteddesign/ReBuzz/releases/latest for more information.";
                 }
             };
-
             try
             {
-                wc.DownloadStringAsync(new Uri("http://jeskola.net/buzz/beta/files/changelog.txt"));
+                client.DownloadStringAsync(new Uri(urlLatestRelease));
             }
             catch (Exception e)
             {
-                changelogBox.Text = e.Message;
+                MessageBox.Show(e.Message, "ReBuzz Update");
             }
-            */
         }
 
         void VerifySignature()

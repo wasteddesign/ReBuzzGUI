@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using Wintellect.PowerCollections;
+using pc = Wintellect.PowerCollections;
 using BuzzGUI.Interfaces;
 using BuzzGUI.Common;
 
@@ -11,7 +11,7 @@ namespace BuzzGUI.SequenceEditor
 {
 	public class Clipboard
 	{
-		List<OrderedDictionary<int, EventRef>> data;
+		List<pc.OrderedDictionary<int, EventRef>> data;
 		int firstTrack;
 		int span;
 
@@ -33,10 +33,10 @@ namespace BuzzGUI.SequenceEditor
 		{
 			if (c.data != null)
 			{
-				data = new List<OrderedDictionary<int, EventRef>>(c.data.Count);
+				data = new List<pc.OrderedDictionary<int, EventRef>>(c.data.Count);
 				for (int i = 0; i < data.Count; i++)
 				{
-					data[i] = new OrderedDictionary<int, EventRef>();
+					data[i] = new pc.OrderedDictionary<int, EventRef>();
 					foreach (var e in c.data[i]) data[i][e.Key] = e.Value;
 				}
 			}
@@ -77,16 +77,16 @@ namespace BuzzGUI.SequenceEditor
 		{
 			firstTrack = (int)r.Top;
 			span = (int)r.Width;
-			data = new List<OrderedDictionary<int, EventRef>>();
+			data = new List<pc.OrderedDictionary<int, EventRef>>();
 
 			for (int t = (int)r.Top; t < (int)r.Bottom; t++)
 			{
 				if (t >= song.Sequences.Count) return;
 
-				var events = (song.Sequences[t].Events.Dictionary) as OrderedDictionary<int, SequenceEvent>;
+				var events = (song.Sequences[t].Events.Dictionary) as pc.OrderedDictionary<int, SequenceEvent>;
 				var range = events.Range((int)r.Left, true, (int)r.Right, false);
 
-				var d = new OrderedDictionary<int, EventRef>();
+				var d = new pc.OrderedDictionary<int, EventRef>();
 				foreach (var e in range) d[e.Key - (int)r.Left] = new EventRef(e.Value);
 				data.Add(d);
 

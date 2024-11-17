@@ -1,16 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <RootNamespace>BuzzGUI.SequenceEditor</RootNamespace>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
-	  <BaseOutputPath>..\rel</BaseOutputPath>
+    <BaseOutputPath>..\rel</BaseOutputPath>
     <Platforms>AnyCPU;x64</Platforms>
     <AssemblyName>BuzzGUI.SequenceEditor</AssemblyName>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Actions\AddTrackAction.cs" />
     <Compile Remove="Actions\ClearAction.cs" />
@@ -23,12 +21,11 @@
     <Compile Remove="Actions\SetMarkerAction.cs" />
     <Compile Remove="Actions\SwapTracksAction.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BuzzGUI.Common\BuzzGUI.Common.csproj">
-      <Aliases></Aliases>
+      <Aliases>
+      </Aliases>
     </ProjectReference>
     <ProjectReference Include="..\BuzzGUI.Interfaces\BuzzGUI.Interfaces.csproj" />
   </ItemGroup>
-
 </Project>

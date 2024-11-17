@@ -499,6 +499,10 @@ namespace Sanford.Multimedia.Midi
         /// <summary>
         /// Gets or sets the Sequence's format value.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        /// <summary>
+        /// Gets or sets the Sequence's format value.
+        /// </summary>
         public int Format
         {
             get
@@ -728,6 +732,7 @@ namespace Sanford.Multimedia.Midi
 
         public event EventHandler Disposed;
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ISite Site
         {
             get

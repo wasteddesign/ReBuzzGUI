@@ -1,16 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
-
-	  <UseWindowsForms>true</UseWindowsForms>
+    <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>disable</ImplicitUsings>
-	  <BaseOutputPath>..\rel</BaseOutputPath>
+    <BaseOutputPath>..\rel</BaseOutputPath>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
-
   <ItemGroup>
     <Compile Remove="Sanford.Multimedia.Midi\Clocks\**" />
     <Compile Remove="Sanford.Multimedia.Midi\Device Classes\**" />
@@ -33,7 +30,6 @@
     <Page Remove="Sanford.Multimedia.Midi\Processing\**" />
     <Page Remove="Sanford.Multimedia.Midi\UI\**" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Remove="PowerCollections\AssemblyInfo.cs" />
     <Compile Remove="Sanford.Multimedia.Midi\AssemblyInfo.cs" />
@@ -41,12 +37,10 @@
     <Compile Remove="Sanford.Multimedia.Midi\MidiNoteConverter.cs" />
     <Compile Remove="Sanford.Multimedia.Midi\Sequencing\Sequencer.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Themes\Images\clear.png" />
     <None Remove="Themes\Images\search.png" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="Sanford.Multimedia.Midi\Clocks\IClock.cs" />
     <Compile Include="Sanford.Multimedia.Midi\Clocks\PpqnClock.cs" />
@@ -62,22 +56,18 @@
     <Compile Include="Sanford.Multimedia.Midi\Processing\ChasedEventArgs.cs" />
     <Compile Include="Sanford.Multimedia.Midi\Processing\StoppedEventArgs.cs" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="SharpZipLib" Version="1.4.2" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\BuzzGUI.Interfaces\BuzzGUI.Interfaces.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Resource Include="Themes\Images\clear.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Themes\Images\search.png" />
   </ItemGroup>
-
   <ItemGroup>
     <Page Update="SimpleStyles\Button.xaml">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
@@ -180,9 +170,7 @@
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-
 </Project>

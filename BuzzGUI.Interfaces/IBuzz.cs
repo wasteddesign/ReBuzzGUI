@@ -106,5 +106,9 @@ namespace BuzzGUI.Interfaces
 
         // device number, MIDI data
         void SendMIDIOutput(int device, int data);
+
+        //NativeMachineFramework does not have access to System.Windows.Media, 
+        //so this method exists to lookup a theme string and return a System.Drawing.Color
+        System.Drawing.Color GetThemeColour(string name);
     }
 }
